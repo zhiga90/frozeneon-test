@@ -1,11 +1,27 @@
 <template lang="pug">
-  .layout-default
-    slot
+  .layout-default.flex-column
+    .main-navbar.flex-thin(v-if="isTopBar")
+      LayoutDefaultTopBar
+    .main-wrap.flex-stretch
+      slot
+    .main-footer.flex-thin(v-if="isFooter")
+      LayoutDefaultFooter
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import LayoutDefaultTopBar from '@/components/layouts/LayoutDefaultTopBar'
+import LayoutDefaultFooter from '@/components/layouts/LayoutDefaultFooter'
+
 export default {
   name: 'LayoutDefault',
+  components: {
+    LayoutDefaultTopBar, LayoutDefaultFooter,
+  },
+
+  computed: {
+    ...mapGetters('ui', ['isTopBar', 'isFooter']),
+  },
 }
 </script>
 
