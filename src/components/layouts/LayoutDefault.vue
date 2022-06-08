@@ -3,7 +3,8 @@
     .main-navbar.flex-thin(v-if="isTopBar")
       LayoutDefaultTopBar
     .main-wrap.flex-stretch
-      slot
+      b-container(:fluid="!isLayoutContainer")
+        slot
     .main-footer.flex-thin(v-if="isFooter")
       LayoutDefaultFooter
 </template>
@@ -20,7 +21,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ui', ['isTopBar', 'isFooter']),
+    ...mapGetters('ui', ['isTopBar', 'isFooter', 'isLayoutContainer']),
   },
 }
 </script>
