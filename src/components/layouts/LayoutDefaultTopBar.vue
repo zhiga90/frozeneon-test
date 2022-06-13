@@ -22,11 +22,13 @@
           b-dropdown-item(
             v-for="(pp, index) in perPageEnum"
             :key="'pp' + index"
-            @click="perPage = pp"
+            @click="perPageClicked(pp)"
           ) {{pp}}
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'LayoutDefaultTopBar',
 
@@ -41,19 +43,17 @@ export default {
   },
 
   mounted() {
-    this.$router.onReady(() => { this.searchValue = this.$route.query.t || '' })
+    this.$router.onReady(() => {
+      this.searchValue = this.$route.query.t || ''
+      this.perPage = this.$route.query.pp || 10
+    })
   },
   beforeDestroy() {
     this.clearTimer()
   },
-  watch: {
-    perPage() {
-      this.clearTimer()
-      this.toRoute()
-    },
-  },
 
   methods: {
+    ...mapActions('search', ['toSearchResults']),
     clear() {
       if (this.searchValue) {
         this.searchValue = ''
@@ -67,20 +67,15 @@ export default {
       if (this.timer) this.clearTimer()
       this.timer = setTimeout(this.toRoute, this.searchDelay)
     },
-    toRoute() {
-      let routeName = ''
-      let query = {}
-      if (!this.searchValue) {
-        routeName = 'home'
-      } else {
-        routeName = 'search-results'
-        query = {
-          t: this.searchValue,
-          p: 1,
-          pp: this.perPage,
-        }
+    perPageClicked(perPage) {
+      if (perPage !== this.perPage) {
+        this.perPage = perPage
+        this.clearTimer()
+        this.toRoute()
       }
-      this.$router.push({ name: routeName, query }).catch(() => {})
+    },
+    toRoute() {
+      this.toSearchResults({ text: this.searchValue, page: 1, perPage: this.perPage })
     },
   },
 }
