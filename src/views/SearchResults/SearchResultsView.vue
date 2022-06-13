@@ -10,13 +10,15 @@
           v-for="(item, index) in items"
           :key="'item' + index"
         )
-          b-row
-            b-col {{ item.name }}
+          search-results-row(v-if="item.package" v-bind="item.package")
 </template>
 
 <script>
+import SearchResultsRow from './SearchResultsRow'
+
 export default {
   name: 'SearchResultsView',
+  components: { SearchResultsRow },
 
   data() {
     return {
