@@ -10,8 +10,9 @@ const actions = {
    * @param {string} payloads.text
    * @param {number} [payloads.page=1]
    * @param {number} [payloads.perPage=10]
+   * @param {string} payloads.packageName
    */
-  toSearchResults(context, { text, page, perPage }) {
+  toSearchResults(context, { text, page, perPage, packageName }) {
     let routeName = ''
     let query = {}
     if (!text) {
@@ -23,6 +24,7 @@ const actions = {
         p: page || 1,
         pp: perPage || 10,
       }
+      if (packageName) query.n = packageName
     }
     router.push({ name: routeName, query }).catch(() => {})
   },

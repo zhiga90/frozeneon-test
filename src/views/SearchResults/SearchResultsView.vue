@@ -12,7 +12,11 @@
           v-for="(item, index) in items"
           :key="'item' + index"
         )
-          search-results-row(v-if="item.package" v-bind="item.package")
+          search-results-row(
+            v-if="item.package"
+            v-bind="item.package"
+            @click="toShowPackage(item.package.name)"
+          )
 
         b-pagination(
           v-model="page"
@@ -21,15 +25,18 @@
           align="center"
           @change="toPage"
         )
+
+    search-results-more(v-if="isPackageModal" @close="isPackageModal = false")
 </template>
 
 <script>
 import SearchResultsRow from './SearchResultsRow'
+import SearchResultsMore from './SearchResultsMore'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'SearchResultsView',
-  components: { SearchResultsRow },
+  components: { SearchResultsRow, SearchResultsMore },
 
   data() {
     return {
@@ -40,6 +47,8 @@ export default {
       page: 1,
       total: 0,
       perPage: 0,
+      lastSearch: null,
+      isPackageModal: false,
     }
   },
 
@@ -47,12 +56,22 @@ export default {
     this.$router.onReady(() => {
       this.routerIsReady = true
       this.search()
+      this.showPackage()
     })
   },
 
   watch: {
     $route() {
-      if (this.routerIsReady) this.search()
+      if (this.routerIsReady) {
+        if (this.lastSearch) {
+          const last = JSON.parse(this.lastSearch)
+          const query = this.$route.query
+          if (last.t !== query.t || last.p !== query.p || last.pp !== query.pp) this.search()
+        } else {
+          this.search()
+        }
+        this.showPackage()
+      }
     },
   },
 
@@ -69,6 +88,7 @@ export default {
     },
     async search() {
       const query = this.$route.query
+      this.lastSearch = JSON.stringify(query)
       if (query.t && query.t.length === 1) {
         this.error = 'More than 1 symbol is needed for search.'
         this.isLoading = false
@@ -76,7 +96,6 @@ export default {
         this.error = false
         this.isLoading = true
       }
-      console.log(this.isLoading)
       try {
         const result = await this.$npmSearchAPI.search(query.t, query.p, query.pp)
         this.items = result.data.objects
@@ -86,6 +105,22 @@ export default {
       } catch (e) {
         this.error = true
       } finally { this.isLoading = false }
+    },
+    toShowPackage(packageName) {
+      const { query } = this.$route
+      const searchParams = {
+        text: query.t,
+        page: query.p,
+        perPage: query.pp,
+        packageName,
+      }
+      this.toSearchResults(searchParams)
+    },
+    showPackage() {
+      const name = this.$route.query.n
+      if (name && name.length && name.length >= 2) {
+        this.isPackageModal = true
+      }
     },
   },
 }

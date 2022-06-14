@@ -7,7 +7,7 @@
         b-col(v-if="publisher.username" md="auto" sm="24").mt-md-0.mt-sm-2.mt-xs-2 {{publisher.username}}
 
     .srr-description(v-if="description" ) {{description}}
-    b-button.mt-2(variant="primary" size="sm") more
+    b-button.mt-2(variant="primary" size="sm" @click="$emit('click')") more
 
 </template>
 
