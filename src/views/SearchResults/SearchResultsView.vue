@@ -1,8 +1,8 @@
 <template lang="pug">
   .search-results-view.py-3.position-relative
-    .is-loading(v-if="isLoading").py-3
+    .is-loading.py-3(v-if="isLoading")
       b-spinner(variant="primary")
-    .error.text-danger.text-center(v-if="error") {{ typeof error === 'string' ? error : 'Something went wrong' }}
+    .error.text-danger.text-center(v-else-if="error") {{ typeof error === 'string' ? error : 'Something went wrong' }}
     .items(v-else)
       .no-items(v-if="!items.length")
         .text-center.search-string For search string "{{$route.query.t}}"
