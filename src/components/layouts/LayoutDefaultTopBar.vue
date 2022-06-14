@@ -15,7 +15,7 @@
               b-button.search-clear(size="sm" variant="outline" @click="clear") X
               b-button(type="submit" size="sm" variant="primary") Search
 
-        b-nav-item-dropdown.ml-3(right)
+        b-nav-item-dropdown.d-none.d-sm-block.ml-3(right)
           template(#button-content)
             span Results on page:
             span.per-page-label {{ perPage }}

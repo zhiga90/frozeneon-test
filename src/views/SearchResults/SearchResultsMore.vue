@@ -2,8 +2,7 @@
   b-modal(
     :title="name"
     scrollable
-    ok-only
-    ok-title="Close"
+    hide-footer
     visible
     @hidden="$emit('close')"
   )

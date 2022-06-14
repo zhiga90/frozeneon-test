@@ -1,4 +1,7 @@
-# djinni-test
+# frozeneon-test
+Requirements [here](https://docs.google.com/document/d/1DxR5ZAflS9k5mCEGrQwynPT78TW2OSZTHcARBVTxRAQ/edit/)
+
+Result [here](http://frozenenon.zhalgas.ru)
 
 ## Project setup
 ```
