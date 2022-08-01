@@ -1,5 +1,5 @@
 # frozeneon-test
-Requirements [here](https://docs.google.com/document/d/1DxR5ZAflS9k5mCEGrQwynPT78TW2OSZTHcARBVTxRAQ/edit/)
+Requirements [here](https://docs.google.com/document/d/1DxR5ZAflS9k5mCEGrQwynPT78TW2OSZTHcARBVTxRAQ/edit?usp=sharing)
 
 Result [here](http://frozeneon.zhalgas.ru)
 
